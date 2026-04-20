@@ -4,7 +4,7 @@ import { Component, OnInit, signal } from '@angular/core';
   selector: 'app-home',
   template: `<pre>{{ data() }}</pre>`,
 })
-export default class Home implements OnInit {
+export class HomePage implements OnInit {
     data = signal<unknown | null>(null);
 
     async ngOnInit() {

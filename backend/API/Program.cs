@@ -4,12 +4,15 @@ const string frontendUrl = "http://localhost:5173";
 
 builder.Services.AddOpenApi();
 
+builder.Services.AddControllers();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: cors,
         policy  =>
         {
-            policy.WithOrigins(frontendUrl);
+            policy.WithOrigins(frontendUrl)
+                .AllowAnyHeader()
+                .AllowAnyMethod();;
         });
 });
 
@@ -43,6 +46,7 @@ app.MapGet("/weatherforecast", () =>
     .WithName("GetWeatherForecast");
 
 app.UseCors(cors);
+app.MapControllers();
 app.Run();
 
 record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)

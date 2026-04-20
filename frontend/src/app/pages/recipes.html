@@ -1,0 +1,18 @@
+<h1>recipes page</h1>
+
+<form [formGroup]="addRecipeForm" (ngSubmit)="onSubmit()">
+  <div>
+    <label>Recipe</label>
+    <input type="text" formControlName="name" />
+
+    <div *ngIf="name.touched && name.invalid">
+      <small *ngIf="name.errors?.['required']">
+        name is required
+      </small>
+    </div>
+  </div>
+
+  <button type="submit" [disabled]="addRecipeForm.invalid">
+    Submit
+  </button>
+</form>

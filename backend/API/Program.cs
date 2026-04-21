@@ -1,3 +1,7 @@
+using backend.Domain;
+using backend.Domain.Repository;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 const string cors = "cors";
 const string frontendUrl = "http://localhost:5173";
@@ -15,6 +19,11 @@ builder.Services.AddCors(options =>
                 .AllowAnyMethod();;
         });
 });
+
+builder.Services.AddDbContextPool<ApiDbContext>(opt => 
+    opt.UseNpgsql(builder.Configuration.GetConnectionString("Default")));
+
+builder.Services.AddTransient<IRecipeRepository, RecipeRepository>();
 
 var app = builder.Build();
 

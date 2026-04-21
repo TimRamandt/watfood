@@ -1,12 +1,21 @@
-using backend.Models;
+using backend.Domain.Repository;
+using backend.Models.DTO;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Controllers;
 
 [ApiController]
 [Route("recipes")]
-public class RecipeController : ControllerBase
+public class RecipeController: ControllerBase
 {
+    private readonly IRecipeRepository _recipeRepository;
+    
+    public RecipeController(IRecipeRepository recipeRepository)
+    {
+       _recipeRepository = recipeRepository; 
+    }
+
+
     public ActionResult Index()
     {
         return Ok("[WIP] will return saved recipes.");
@@ -14,9 +23,16 @@ public class RecipeController : ControllerBase
     
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
-    public ActionResult Create(Recipe recipe)
+    public async Task<ActionResult> CreateAsync(RecipeDTO recipeDto)
     {
-        Console.WriteLine(recipe.Name);
-        return Ok();
+        try
+        {
+            await _recipeRepository.AddRecipeAsync(recipeDto);
+        }
+        catch (Exception e)
+        {
+           return BadRequest(e.Message); 
+        }
+        return Created();
     }
 }

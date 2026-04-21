@@ -6,6 +6,8 @@ import analog from '@analogjs/platform';
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
   server: {
+    host: true, 
+    port: 5173,
     cors: {
       origin: 'http://localhost:5000'
     }
